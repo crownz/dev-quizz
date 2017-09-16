@@ -52,7 +52,7 @@ class Page extends React.Component<PabgeProps, PageState> {
   renderQuizz() {
     console.log("rendering q!");
     return (
-      <Quizz />
+      <Quizz name={ this.state.name } />
     )
   }
 

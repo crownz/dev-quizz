@@ -1,6 +1,7 @@
 import path from 'path';
 import { Server } from 'http';
 import Express from 'express';
+import bodyParser from 'body-parser';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import config from '../webpack.config.js';
@@ -13,6 +14,8 @@ app.use(webpackDevMiddleware(compiler, { publicPath: config().output.publicPath 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(Express.static(path.join(__dirname, 'static')));
 
 app.get('/', (req, res) => {
@@ -26,19 +29,22 @@ const progress = {
 };
 
 app.get('/progress/:name', (req, res) => {
-
-
-
   setTimeout(() => {
-    console.log("param:", req.params.name);
     let result = progress[req.params.name];
-    console.log("existed? ", result, getQuestions());
-    // result = result || getQuestions().forEach(q => delete q.answer);
-    result = result || getQuestions();
-
-    console.log("Returning!", result);
+    if (!result) {
+      result = getQuestions();
+      result.forEach(question => delete question.answer);
+      progress[req.params.name] = result;
+    }
     res.send(result);
   }, 100);
+});
+
+app.put('/progress', (req, res) => {
+  console.log("REQ: ", req.body);
+  const payload = req.body;
+  const updated = updateAnswer(payload.name, payload.id, payload.value);
+  res.send(updated);
 });
 
 const port = process.env.PORT || 3000;
@@ -50,6 +56,12 @@ server.listen(port, err => {
   }
   console.info(`Server running on http://localhost:${port} [${env}]`);
 });
+
+function updateAnswer(name, id, value) {
+  const question = progress[name].find(questions => questions.id === id);
+  question.selected = value;
+  return question;
+}
 
 function getQuestions() {
   return [
@@ -75,7 +87,58 @@ function getQuestions() {
           value: 'principal'
         }
       ],
+      selected: '',
       answer: 'student'
+    },
+    {
+      id: 'q2',
+      label: 'Imagine a car as a computer, and its engine as a program. Which of the following is an input for the engine program?',
+      type: 'variants',
+      variants: [
+        {
+          label: 'The gas pedal',
+          value: 'pedal'
+        },
+        {
+          label: 'The driver\'s seat',
+          value: 'seat'
+        },
+        {
+          label: 'The steering wheel',
+          value: 'wheel'
+        },
+        {
+          label: 'The windshield wipers',
+          value: 'wipers'
+        }
+      ],
+      selected: '',
+      answer: 'pedal'
+    },
+    {
+      id: 'q3',
+      label: 'A good algorithm must be:',
+      type: 'variants',
+      variants: [
+        {
+          label: 'Detailed',
+          value: 'detailed'
+        },
+        {
+          label: 'Replaceable',
+          value: 'replaceable'
+        },
+        {
+          label: 'Simple',
+          value: 'simple'
+        },
+        {
+          label: 'Open-ended',
+          value: 'open-ended'
+        }
+      ],
+      selected: '',
+      answer: 'detailed'
     }
   ];
 }

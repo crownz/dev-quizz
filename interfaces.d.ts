@@ -8,6 +8,7 @@ interface Question {
   label: string;
   type: string;
   variants?: Variant[];
+  selected?: any;
 }
 
 interface Variant {

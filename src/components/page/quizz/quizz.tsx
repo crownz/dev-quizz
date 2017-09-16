@@ -2,11 +2,15 @@ import * as React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from "react-redux";
 
+import { updateProgress } from '../../../actions/progress';
+
 import { QUESTIONS } from './questions';
 import './quizz.scss';
 
 interface QuizzProps {
   progress: Question[];
+  name: string;
+  updateProgress: any;
 }
 
 interface QuizzState {
@@ -17,11 +21,16 @@ class Quizz extends React.Component<QuizzProps, QuizzState> {
 
   constructor(props: QuizzProps) {
     super(props);
+    this.updateProgress = this.updateProgress.bind(this);
     this.state = { activeQuestion: 0 };
   }
 
   changeActiveQuestion(idx: number) {
     this.setState({ activeQuestion: idx });
+  }
+
+  updateProgress(id: string, value: any) {
+    this.props.updateProgress(this.props.name, id, value);
   }
 
   renderSelectionContainer() {
@@ -49,7 +58,7 @@ class Quizz extends React.Component<QuizzProps, QuizzState> {
     }
 
     return (
-      <Component />
+      <Component question={ this.props.progress[this.state.activeQuestion] } onSelect={ this.updateProgress } />
     );
   }
 
@@ -91,9 +100,7 @@ class Quizz extends React.Component<QuizzProps, QuizzState> {
   };
 
   static mapDispatchToProps(dispatch) {
-    return bindActionCreators({
-
-    }, dispatch);
+    return bindActionCreators({ updateProgress }, dispatch);
   }
 
 }
