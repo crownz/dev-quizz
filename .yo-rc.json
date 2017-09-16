@@ -1,0 +1,9 @@
+{
+  "generator-react-webpack": {
+    "appName": "developer-quizz",
+    "style": "scss",
+    "cssmodules": true,
+    "postcss": true,
+    "generatedWithVersion": 4
+  }
+}

@@ -1,0 +1,23 @@
+:global {
+  html,
+  body,
+  #app {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    word-wrap: break-word;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction:column;
+  min-height: 100%;
+  width: 100%;
+  background: black;
+}
