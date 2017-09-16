@@ -8,7 +8,7 @@ import App from './components/App';
 import rootReducer from './reducers';
 
 const initialState = {
-  progress: {}
+
 };
 
 const store = createStore(rootReducer, initialState, applyMiddleware(...[thunk]));

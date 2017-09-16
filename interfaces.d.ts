@@ -1,8 +1,16 @@
 interface State {
   loading: boolean;
-  progress: Progress;
+  progress: Question[];
 }
 
-interface Progress {
-  status: string;
+interface Question {
+  id: string;
+  label: string;
+  type: string;
+  variants?: Variant[];
+}
+
+interface Variant {
+  label: string;
+  value: any;
 }

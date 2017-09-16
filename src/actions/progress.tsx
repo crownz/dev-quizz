@@ -7,10 +7,10 @@ export const getProgressSuccess = payload => ({ type: GET_PROGRESS_SUCCESS, payl
 export const getProgressFailure = () => ({ type: GET_PROGRESS_FAILURE });
 
 
-export const getProgress = () => {
+export const getProgress = (name: string) => {
   return dispatch => {
     dispatch(getProgressStarted());
-    fetch(`/progress`, {
+    fetch(`/progress/${name}`, {
       method: 'GET',
       credentials: 'same-origin'
     })

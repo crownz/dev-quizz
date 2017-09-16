@@ -20,11 +20,25 @@ app.get('/', (req, res) => {
 });
 
 const progress = {
-  done: [1, 2, 5, 6]
+  demo: {
+
+  }
 };
 
-app.get('/progress', (req, res) => {
-  setTimeout(() => res.send(progress), 2000);
+app.get('/progress/:name', (req, res) => {
+
+
+
+  setTimeout(() => {
+    console.log("param:", req.params.name);
+    let result = progress[req.params.name];
+    console.log("existed? ", result, getQuestions());
+    // result = result || getQuestions().forEach(q => delete q.answer);
+    result = result || getQuestions();
+
+    console.log("Returning!", result);
+    res.send(result);
+  }, 100);
 });
 
 const port = process.env.PORT || 3000;
@@ -36,3 +50,32 @@ server.listen(port, err => {
   }
   console.info(`Server running on http://localhost:${port} [${env}]`);
 });
+
+function getQuestions() {
+  return [
+    {
+      id: 'q1',
+      label: 'A programmer is to a computer as a teacher is to:',
+      type: 'variants',
+      variants: [
+        {
+          label: 'A desk',
+          value: 'desk'
+        },
+        {
+          label: 'A student',
+          value: 'student'
+        },
+        {
+          label: 'A library',
+          value: 'library'
+        },
+        {
+          label: 'A principal',
+          value: 'principal'
+        }
+      ],
+      answer: 'student'
+    }
+  ];
+}
