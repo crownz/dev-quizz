@@ -2,7 +2,7 @@ import * as React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from "react-redux";
 
-import { updateProgress } from '../../../actions/progress';
+import { updateProgress, cleanProgress } from '../../../actions/progress';
 
 import { QUESTIONS } from './questions';
 import './quizz.scss';
@@ -11,6 +11,7 @@ interface QuizzProps {
   progress: Question[];
   name: string;
   updateProgress: any;
+  cleanProgress: any;
 }
 
 interface QuizzState {
@@ -33,6 +34,11 @@ class Quizz extends React.Component<QuizzProps, QuizzState> {
     this.props.updateProgress(this.props.name, id, value);
   }
 
+  navigate(forward: boolean = true) {
+    const { activeQuestion } = this.state;
+    this.setState({ activeQuestion: forward ? activeQuestion + 1 : activeQuestion - 1 });
+  }
+
   renderSelectionContainer() {
     return (
       <div className="selection-container">
@@ -42,8 +48,15 @@ class Quizz extends React.Component<QuizzProps, QuizzState> {
   }
 
   renderSelection(id: string, idx: number) {
+    const getClassName = () => {
+      const isActive = this.state.activeQuestion === idx ? 'active' : '';
+      const isAnswered = this.props.progress[idx].selected ? 'answered' : '';
+
+      return `selection ${isAnswered} ${isActive}`;
+    };
+
     return (
-      <div className={ `selection ${this.state.activeQuestion === idx ? 'active' : ''}` } key={ id } onClick={ () => this.changeActiveQuestion(idx) }>
+      <div className={ getClassName() } key={ id } onClick={ () => this.changeActiveQuestion(idx) }>
         { idx }
       </div>
     )
@@ -65,9 +78,13 @@ class Quizz extends React.Component<QuizzProps, QuizzState> {
   renderContent() {
     return (
       <div className="content">
-        { this.state.activeQuestion !== 0 && <button>PREVIOUS</button> }
+        <div className="navigation">
+          { this.state.activeQuestion !== 0 && <button onClick={ () => this.navigate(false) } className="navigation-button">PREVIOUS</button> }
+        </div>
         { this.renderQuestion() }
-        { this.state.activeQuestion !== this.props.progress.length - 1 && <button>NEXT</button> }
+        <div className="navigation">
+          { this.state.activeQuestion !== this.props.progress.length - 1 && <button className="navigation-button" onClick={ () => this.navigate() }>NEXT</button> }
+        </div>
       </div>
     );
   }
@@ -75,12 +92,11 @@ class Quizz extends React.Component<QuizzProps, QuizzState> {
   renderHeader() {
     return (
       <div className="quizz-header">
-        <button>BACK</button>
+        <button onClick={ this.props.cleanProgress }>BACK</button>
         { this.renderSelectionContainer() }
         <button>FINISH</button>
       </div>
     );
-
   }
 
   render() {
@@ -93,16 +109,14 @@ class Quizz extends React.Component<QuizzProps, QuizzState> {
   }
 
   static mapStateToProps(state: State) {
-
     return {
       progress: state.progress
     }
   };
 
   static mapDispatchToProps(dispatch) {
-    return bindActionCreators({ updateProgress }, dispatch);
+    return bindActionCreators({ updateProgress, cleanProgress }, dispatch);
   }
-
 }
 
 export default connect(Quizz.mapStateToProps, Quizz.mapDispatchToProps)(Quizz);

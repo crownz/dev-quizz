@@ -6,6 +6,8 @@ export const UPDATE_PROGRESS_STARTED = 'UPDATE_PROGRESS_STARTED';
 export const UPDATE_PROGRESS_SUCCESS = 'UPDATE_PROGRESS_SUCCESS';
 export const UPDATE_PROGRESS_FAILURE = 'UPDATE_PROGRESS_FAILURE';
 
+export const RESET_PROGRESS = 'RESET_PROGRESS';
+
 export const getProgressStarted = () => ({ type: GET_PROGRESS_STARTED });
 export const getProgressSuccess = payload => ({ type: GET_PROGRESS_SUCCESS, payload });
 export const getProgressFailure = () => ({ type: GET_PROGRESS_FAILURE });
@@ -13,6 +15,8 @@ export const getProgressFailure = () => ({ type: GET_PROGRESS_FAILURE });
 export const updateProgressStarted = () => ({ type: UPDATE_PROGRESS_STARTED });
 export const updateProgressSuccess = payload => ({ type: UPDATE_PROGRESS_SUCCESS, payload });
 export const updateProgressFailure = () => ({ type: UPDATE_PROGRESS_FAILURE });
+
+export const resetProgress = () => ({ type: RESET_PROGRESS });
 
 
 export const getProgress = (name: string) => {
@@ -42,5 +46,11 @@ export const updateProgress = (name: string, id: string, value: any) => {
       .then(response => response.json())
       .then(data => dispatch(updateProgressSuccess(data)))
       .catch(() => dispatch(updateProgressFailure()));
+  };
+};
+
+export const cleanProgress = () => {
+  return dispatch => {
+    dispatch(resetProgress());
   };
 };

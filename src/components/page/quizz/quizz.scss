@@ -21,7 +21,34 @@
   border: 1px solid black;
   cursor: pointer;
 
+  &.answered {
+    color: white;
+    background-color: midnightblue;
+  }
+
   &.active {
+    color: black;
     background-color: azure;
   }
+}
+
+.content {
+  display: flex;
+  margin-top: 40px;
+}
+
+.navigation {
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.navigation-button {
+  width: 150px;
+  height: 40px;
+  color: white;
+  background-color: midnightblue;
+  outline: none;
 }
