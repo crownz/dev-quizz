@@ -31,6 +31,10 @@ class WebpackTestConfig extends WebpackBaseConfig {
       module: {
         loaders: [
           {
+            test: /\.tsx?$/,
+            loader: "awesome-typescript-loader"
+          },
+          {
             test: /\.cssmodule\.css$/,
             loaders: [
               { loader: 'style-loader' },

@@ -14,6 +14,7 @@ export default class Variants extends React.Component<VariantsProps, VariantsSta
 
   constructor(props: VariantsProps) {
     super(props);
+
     this.state = { selected: props.question.selected || null };
   }
 
@@ -41,7 +42,7 @@ export default class Variants extends React.Component<VariantsProps, VariantsSta
     const { question } = this.props;
 
     return (
-      <div className="variants">
+      <div className="variants" data-hook="variants-container">
         <div className="variants-label">{ question.label }</div>
         { question.variants.map((variant: Variant, idx: number) => this.renderVariant(variant, idx)) }
       </div>
