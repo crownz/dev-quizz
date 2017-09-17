@@ -2,6 +2,7 @@ import path from 'path';
 import { Server } from 'http';
 import Express from 'express';
 import bodyParser from 'body-parser';
+var request = require('request');
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import config from '../webpack.config.js';
@@ -34,6 +35,21 @@ app.put('/progress', (req, res) => {
   const { name, id, value } = req.body;
   const updated = updateAnswer(name, id, value);
   res.send(updated);
+});
+
+app.put('/validate', (req, res) => {
+  const { html } = req.body;
+  const options = {
+    url: 'https://validator.nu?out=json',
+    method: 'POST',
+    headers: {
+      'User-Agent': 'request',
+      'Content-Type': 'text/html; charset=utf-8'
+    },
+    body: html
+  };
+
+  request(options).pipe(res);
 });
 
 const port = process.env.PORT || 3000;

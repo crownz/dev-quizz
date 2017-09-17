@@ -45,7 +45,9 @@ export default class Variants extends React.Component<VariantsProps, VariantsSta
     return (
       <div className="variants" data-hook="variants-container">
         <div className="variants-label" data-hook="variants-label">{ question.label }</div>
+        <div data-hook="options">
         { question.variants.map((variant: Variant, idx: number) => this.renderVariant(variant, idx)) }
+        </div>
       </div>
     )
   }

@@ -15,6 +15,11 @@ describe('Component: Variants', function () {
     expect(driver.element('variants-label').text()).to.equal('A programmer is:');
   });
 
+  it('should render 4 answers', function () {
+    const driver = createDriver({});
+    expect(driver.element('options').children().length).to.equal(4);
+  });
+
   it('should render selected answer', function () {
     const driver = createDriver({ newQuestion: { selected: 'desk' } });
     const option = driver.element('option-desk');
@@ -42,6 +47,7 @@ const createDriver = ({ newQuestion = {}, onSelect = () => ({}) }) => {
         exists: () => el.length > 0,
         text: () => el.text(),
         hasClass: className => el.hasClass(className),
+        children: () => el.children(),
         click: () => el.simulate('click')
       }
     }

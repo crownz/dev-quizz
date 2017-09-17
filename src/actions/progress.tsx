@@ -26,9 +26,9 @@ export const getProgress = (name: string) => {
       method: 'GET',
       credentials: 'same-origin'
     })
-      .then(response => response.json())
-      .then(data => dispatch(getProgressSuccess(data)))
-      .catch(() => dispatch(getProgressFailure()));
+    .then(response => response.json())
+    .then(data => dispatch(getProgressSuccess(data)))
+    .catch(() => dispatch(getProgressFailure()));
   };
 };
 
@@ -43,9 +43,9 @@ export const updateProgress = (name: string, id: string, value: any) => {
         'Content-Type': 'application/json'
       }
     })
-      .then(response => response.json())
-      .then(data => dispatch(updateProgressSuccess(data)))
-      .catch(() => dispatch(updateProgressFailure()));
+    .then(response => response.json())
+    .then(data => dispatch(updateProgressSuccess(data)))
+    .catch(() => dispatch(updateProgressFailure()));
   };
 };
 
@@ -53,4 +53,16 @@ export const cleanProgress = () => {
   return dispatch => {
     dispatch(resetProgress());
   };
+};
+
+export const validateHTML = html => {
+  return fetch(`/validate`, {
+      method: 'PUT',
+      credentials: 'same-origin',
+      body: JSON.stringify({ html }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json());
 };

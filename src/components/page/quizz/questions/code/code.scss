@@ -1,0 +1,40 @@
+.textarea {
+  height: 220px;
+  padding: 10px;
+  border: 2px solid transparent;
+  background: black;
+  color: white;
+
+  &.invalid {
+    border: 2px solid darkred;
+  }
+}
+
+.validate {
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+  align-items: center;
+  justify-content: center;
+}
+
+.validate-button {
+  height: 30px;
+  width: 150px;
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  color: lawngreen;
+
+  &.invalid {
+    color: darkred;
+  }
+}
+
+.msg {
+  font-size: 13px;
+  margin-top: 7px;
+}

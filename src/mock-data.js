@@ -5,6 +5,12 @@ export function getQuestions() {
 
 export const QUESTIONS = [
   {
+    id: 'q0',
+    label: 'Enter valid html containing title: Developer quizz',
+    type: 'code',
+    selected: '',
+  },
+  {
     id: 'q1',
     label: 'A programmer is to a computer as a teacher is to:',
     type: 'variants',
