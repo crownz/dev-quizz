@@ -1,10 +1,14 @@
 import * as React from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from "react-redux";
+
 import { validateHTML } from '../../../../../actions/progress';
 import './code.scss';
 
 interface CodeProps {
   question: Question;
   onSelect: Function;
+  validateHTML: any;
 }
 
 interface CodeState {
@@ -13,7 +17,7 @@ interface CodeState {
   messages: { message: string; }[];
 }
 
-export default class Code extends React.Component<CodeProps, CodeState> {
+export class Code extends React.Component<CodeProps, CodeState> {
 
   constructor(props: CodeProps) {
     super(props);
@@ -33,7 +37,7 @@ export default class Code extends React.Component<CodeProps, CodeState> {
     const { value } = this.state;
     const { onSelect, question: { id } } = this.props;
 
-    validateHTML(value).then(({ messages }) => {
+    this.props.validateHTML(value).then(({ messages }) => {
       this.setState({ valid: !messages.length, messages });
       onSelect(id, value);
     });
@@ -79,4 +83,10 @@ export default class Code extends React.Component<CodeProps, CodeState> {
       </div>
     )
   }
+
+  static mapDispatchToProps(dispatch) {
+    return bindActionCreators({ validateHTML }, dispatch);
+  }
 }
+
+export default connect(null, Code.mapDispatchToProps)(Code);

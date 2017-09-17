@@ -26,10 +26,6 @@ class Page extends React.Component<PabgeProps, PageState> {
     this.state = { name: '' };
   }
 
-  componentDidMount() {
-
-  }
-
   beginTest() {
     this.props.getProgress(this.state.name);
   }
@@ -50,7 +46,6 @@ class Page extends React.Component<PabgeProps, PageState> {
   }
 
   renderQuizz() {
-    console.log("rendering q!");
     return (
       <Quizz name={ this.state.name } />
     )
@@ -62,13 +57,14 @@ class Page extends React.Component<PabgeProps, PageState> {
     return (
       <div className="page">
         { loading ? <Loader /> : null }
-        { progress ? this.renderQuizz() : this.renderStart() }
+        <div className={ `page-inner ${loading ? 'blur' : ''}` }>
+          { progress ? this.renderQuizz() : this.renderStart() }
+        </div>
       </div>
     )
   }
 
   static mapStateToProps(state: State) {
-    console.log("state:", state);
     return {
       loading: state.loading,
       progress: state.progress

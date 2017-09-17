@@ -2,22 +2,27 @@ export const GET_PROGRESS_STARTED = 'GET_PROGRESS_STARTED';
 export const GET_PROGRESS_SUCCESS = 'GET_PROGRESS_SUCCESS';
 export const GET_PROGRESS_FAILURE = 'GET_PROGRESS_FAILURE';
 
-export const UPDATE_PROGRESS_STARTED = 'UPDATE_PROGRESS_STARTED';
 export const UPDATE_PROGRESS_SUCCESS = 'UPDATE_PROGRESS_SUCCESS';
 export const UPDATE_PROGRESS_FAILURE = 'UPDATE_PROGRESS_FAILURE';
 
 export const RESET_PROGRESS = 'RESET_PROGRESS';
 
+export const VALIDATE_STARTED = 'VALIDATE_STARTED';
+export const VALIDATE_SUCCESS = 'VALIDATE_SUCCESS';
+export const VALIDATE_FAILURE = 'VALIDATE_FAILURE';
+
 export const getProgressStarted = () => ({ type: GET_PROGRESS_STARTED });
 export const getProgressSuccess = payload => ({ type: GET_PROGRESS_SUCCESS, payload });
 export const getProgressFailure = () => ({ type: GET_PROGRESS_FAILURE });
 
-export const updateProgressStarted = () => ({ type: UPDATE_PROGRESS_STARTED });
 export const updateProgressSuccess = payload => ({ type: UPDATE_PROGRESS_SUCCESS, payload });
 export const updateProgressFailure = () => ({ type: UPDATE_PROGRESS_FAILURE });
 
 export const resetProgress = () => ({ type: RESET_PROGRESS });
 
+export const validateStarted = () => ({ type: VALIDATE_STARTED });
+export const validateSuccess = () => ({ type: VALIDATE_SUCCESS });
+export const validateFailure = () => ({ type: VALIDATE_FAILURE });
 
 export const getProgress = (name: string) => {
   return dispatch => {
@@ -34,7 +39,6 @@ export const getProgress = (name: string) => {
 
 export const updateProgress = (name: string, id: string, value: any) => {
   return dispatch => {
-    dispatch(updateProgressStarted());
     fetch(`/progress`, {
       method: 'PUT',
       credentials: 'same-origin',
@@ -56,13 +60,20 @@ export const cleanProgress = () => {
 };
 
 export const validateHTML = html => {
-  return fetch(`/validate`, {
+  return dispatch => {
+    dispatch(validateStarted());
+    return fetch(`/validate`, {
       method: 'PUT',
       credentials: 'same-origin',
-      body: JSON.stringify({ html }),
+      body: JSON.stringify({html}),
       headers: {
         'Content-Type': 'application/json'
       }
     })
-    .then(response => response.json());
+    .then(response => {
+      dispatch(validateSuccess());
+      return response.json();
+    })
+    .catch(() => dispatch(validateFailure()));
+  };
 };

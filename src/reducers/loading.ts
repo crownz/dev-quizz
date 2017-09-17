@@ -1,12 +1,12 @@
-import { GET_PROGRESS_STARTED, GET_PROGRESS_SUCCESS, UPDATE_PROGRESS_STARTED, UPDATE_PROGRESS_SUCCESS } from '../actions/progress';
+import { GET_PROGRESS_STARTED, GET_PROGRESS_SUCCESS, VALIDATE_STARTED, VALIDATE_SUCCESS } from '../actions/progress';
 
 export default (state: boolean = false, action: any = {}) => {
   switch (action.type) {
     case GET_PROGRESS_STARTED:
-      console.log("LOADING STARTED!");
+    case VALIDATE_STARTED:
       return true;
     case GET_PROGRESS_SUCCESS:
-      console.log("LOADING DONE!");
+    case VALIDATE_SUCCESS:
       return false;
     default:
       return state;

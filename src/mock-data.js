@@ -9,6 +9,7 @@ export const QUESTIONS = [
     label: 'Enter valid html containing title: Developer quizz',
     type: 'code',
     selected: '',
+    answer: 'Developer quizz'
   },
   {
     id: 'q1',
