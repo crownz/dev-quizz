@@ -50,6 +50,7 @@ export class Code extends React.Component<CodeProps, CodeState> {
     return (
       <textarea onChange={ e => this.updateValue(e.target.value) }
                 value={ value }
+                data-hook="code-input"
                 className={ `textarea ${validityClass}` } />
     );
   }
@@ -57,7 +58,7 @@ export class Code extends React.Component<CodeProps, CodeState> {
   renderValidate() {
     return (
       <div className="validate">
-        <button className="validate-button" onClick={ this.validate }>VALIDATE</button>
+        <button data-hook="validate-button" className="validate-button" onClick={ this.validate }>VALIDATE</button>
       </div>
     );
   }
@@ -66,7 +67,7 @@ export class Code extends React.Component<CodeProps, CodeState> {
     const { messages, valid } = this.state;
 
     return (
-      <div className={ `messages ${valid ? '' : 'invalid'}` }>
+      <div className={ `messages ${valid ? '' : 'invalid'}` } data-hook="code-messages">
         { messages.map(({ message }, idx) => <div key={ idx } className="msg">{ message }</div>) }
       </div>
     );

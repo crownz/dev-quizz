@@ -18,7 +18,7 @@ class WebpackTestConfig extends WebpackBaseConfig {
     };
 
     this.config = {
-      devtool: 'inline-source-map',
+      devtool: 'source-map',
       entry: [
         './client.js'
       ],
