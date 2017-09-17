@@ -20,24 +20,20 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(Express.static(path.join(__dirname, 'static')));
 
-app.get('/', (req, res) => {
-  res.render('index', {  });
-});
-
-app.get('/progress/:name', (req, res) => {
+app.get('/api/progress/:name', (req, res) => {
   setTimeout(() => {
     let result = getProgressIfExists(req.params.name);
     res.send(result);
   }, 100);
 });
 
-app.put('/progress', (req, res) => {
+app.put('/api/progress', (req, res) => {
   const { name, id, value } = req.body;
   const updated = updateAnswer(name, id, value);
   res.send(updated);
 });
 
-app.put('/validate', (req, res) => {
+app.put('/api/validate', (req, res) => {
   const { html } = req.body;
   const options = {
     url: 'https://validator.nu?out=json',
@@ -50,6 +46,10 @@ app.put('/validate', (req, res) => {
   };
 
   request(options).pipe(res);
+});
+
+app.get('*', (req, res) => {
+  res.render('index', {  });
 });
 
 const port = process.env.PORT || 3000;

@@ -1,1 +1,1 @@
-export { default } from './quizz';
+export { default } from './quizz-container';

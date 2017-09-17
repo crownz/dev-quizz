@@ -1,80 +1,46 @@
 import * as React from 'react';
-import { bindActionCreators } from 'redux';
+import { Router, Route } from 'react-router-dom';
 import { connect } from "react-redux";
 
-import { getProgress } from '../../actions/progress';
 
 import Loader from './loader';
+import Home from './home';
 import Quizz from './quizz';
 import './page.scss';
 
-interface PabgeProps {
+interface PageProps {
   loading: boolean;
-  progress: Question[];
-  getProgress: Function;
+  history: any;
 }
 
-interface PageState {
-  name: string;
-}
+class Page extends React.Component<PageProps, {}> {
 
-class Page extends React.Component<PabgeProps, PageState> {
-
-  constructor(props) {
+  constructor(props: PageProps) {
     super(props);
-    this.beginTest = this.beginTest.bind(this);
-    this.state = { name: '' };
-  }
-
-  beginTest() {
-    this.props.getProgress(this.state.name);
-  }
-
-  renderStart() {
-    return (
-      <div className="start-container">
-        <div className="start-title">
-          Enter your name to begin!
-        </div>
-        <div className="input-container">
-          <input className="name-input" onChange={ e => this.setState({ name: e.target.value })}/>
-          <button className="start-button" onClick={ this.beginTest }>BEGIN</button>
-        </div>
-
-      </div>
-    )
-  }
-
-  renderQuizz() {
-    return (
-      <Quizz name={ this.state.name } />
-    )
   }
 
   render() {
-    const { loading, progress } = this.props;
+    const { loading, history } = this.props;
 
     return (
       <div className="page">
         { loading ? <Loader /> : null }
-        <div className={ `page-inner ${loading ? 'blur' : ''}` }>
-          { progress ? this.renderQuizz() : this.renderStart() }
-        </div>
+        <Router history={ history }>
+          <div className="page-inner">
+            <Route exact path="/home" component={ Home } />
+            <Route exact path="/quizz/:name" component={ Quizz } />
+          </div>
+        </Router>
       </div>
-    )
+    );
   }
 
   static mapStateToProps(state: State) {
     return {
-      loading: state.loading,
-      progress: state.progress
+      loading: state.loading
     }
   };
-
-  static mapDispatchToProps(dispatch) {
-    return bindActionCreators({ getProgress }, dispatch);
-  }
 }
 
 
-export default connect(Page.mapStateToProps, Page.mapDispatchToProps)(Page);
+export default connect(Page.mapStateToProps)(Page);

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from "react-redux";
+import { withRouter } from 'react-router-dom'
 
 import { updateProgress, cleanProgress } from '../../../actions/progress';
 
@@ -37,6 +38,16 @@ class Quizz extends React.Component<QuizzProps, QuizzState> {
   navigate(forward: boolean = true) {
     const { activeQuestion } = this.state;
     this.setState({ activeQuestion: forward ? activeQuestion + 1 : activeQuestion - 1 });
+  }
+
+  goBack(history) {
+    this.props.cleanProgress();
+    history.push('/home');
+  }
+
+  finish(history) {
+    this.props.cleanProgress();
+    history.push(`/result/${this.props.name}`);
   }
 
   renderSelectionContainer() {
@@ -89,12 +100,30 @@ class Quizz extends React.Component<QuizzProps, QuizzState> {
     );
   }
 
+  renderBackButton() {
+    const Button = withRouter(({ history }) => (
+      <button onClick={ () => this.goBack(history) }>
+        BACK
+      </button>));
+
+    return <Button />;
+  }
+
+  renderFinishButton() {
+    const Button = withRouter(({ history }) => (
+      <button onClick={ () => this.finish(history) }>
+        FINISH
+      </button>));
+
+    return <Button />;
+  }
+
   renderHeader() {
     return (
       <div className="quizz-header">
-        <button onClick={ this.props.cleanProgress }>BACK</button>
+        { this.renderBackButton() }
         { this.renderSelectionContainer() }
-        <button>FINISH</button>
+        { this.renderFinishButton() }
       </div>
     );
   }

@@ -27,7 +27,7 @@ export const validateFailure = () => ({ type: VALIDATE_FAILURE });
 export const getProgress = (name: string) => {
   return dispatch => {
     dispatch(getProgressStarted());
-    fetch(`/progress/${name}`, {
+    fetch(`/api/progress/${name}`, {
       method: 'GET',
       credentials: 'same-origin'
     })
@@ -39,7 +39,7 @@ export const getProgress = (name: string) => {
 
 export const updateProgress = (name: string, id: string, value: any) => {
   return dispatch => {
-    fetch(`/progress`, {
+    fetch(`/api/progress`, {
       method: 'PUT',
       credentials: 'same-origin',
       body: JSON.stringify({ name, id, value }),
@@ -62,7 +62,7 @@ export const cleanProgress = () => {
 export const validateHTML = html => {
   return dispatch => {
     dispatch(validateStarted());
-    return fetch(`/validate`, {
+    return fetch(`/api/validate`, {
       method: 'PUT',
       credentials: 'same-origin',
       body: JSON.stringify({html}),

@@ -7,10 +7,10 @@ export function getProgressIfExists(name) {
   if (!result) {
     result = getQuestions();
     result.forEach(question => delete question.answer);
-    progress[name] = result;
+    progress[name] = result.slice();
   }
 
-  return [...result];
+  return result;
 }
 
 export function updateAnswer(name, id, value) {

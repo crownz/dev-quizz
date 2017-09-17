@@ -22,7 +22,7 @@ export class Code extends React.Component<CodeProps, CodeState> {
   constructor(props: CodeProps) {
     super(props);
     this.validate = this.validate.bind(this);
-    this.state = { value: props.question.selected || null, valid: true, messages: [] };
+    this.state = { value: props.question.selected || '', valid: true, messages: [] };
   }
 
   componentWillReceiveProps(nextProps: CodeProps) {
