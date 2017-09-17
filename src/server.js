@@ -2,7 +2,7 @@ import path from 'path';
 import { Server } from 'http';
 import Express from 'express';
 import bodyParser from 'body-parser';
-import request from './request';
+var request = require('request');
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import config from '../webpack.config.js';
