@@ -52,23 +52,8 @@ class Quizz extends React.Component<QuizzProps, QuizzState> {
 
   renderSelectionContainer() {
     return (
-      <div className="selection-container">
+      <div className="selection-container" data-hook="selection-container">
         { this.props.progress.map((question: Question, idx: number) => this.renderSelection(question.id, idx)) }
-      </div>
-    )
-  }
-
-  renderSelection(id: string, idx: number) {
-    const getClassName = () => {
-      const isActive = this.state.activeQuestion === idx ? 'active' : '';
-      const isAnswered = this.props.progress[idx].selected ? 'answered' : '';
-
-      return `selection ${isAnswered} ${isActive}`;
-    };
-
-    return (
-      <div className={ getClassName() } key={ id } onClick={ () => this.changeActiveQuestion(idx) }>
-        { idx }
       </div>
     )
   }
@@ -88,21 +73,46 @@ class Quizz extends React.Component<QuizzProps, QuizzState> {
 
   renderContent() {
     return (
-      <div className="content">
+      <div className="content" data-hook="content">
         <div className="navigation">
-          { this.state.activeQuestion !== 0 && <button onClick={ () => this.navigate(false) } className="navigation-button">PREVIOUS</button> }
+          { this.state.activeQuestion !== 0 &&
+            <button data-hook="navigate-back"
+                    onClick={ () => this.navigate(false) }
+                    className="navigation-button">
+              PREVIOUS
+            </button> }
         </div>
         { this.renderQuestion() }
         <div className="navigation">
-          { this.state.activeQuestion !== this.props.progress.length - 1 && <button className="navigation-button" onClick={ () => this.navigate() }>NEXT</button> }
+          { this.state.activeQuestion !== this.props.progress.length - 1 &&
+            <button data-hook="navigate-forward"
+                    className="navigation-button"
+                    onClick={ () => this.navigate() }>
+              NEXT
+            </button> }
         </div>
       </div>
     );
   }
 
+  renderSelection(id: string, idx: number) {
+    const getClassName = () => {
+      const isActive = this.state.activeQuestion === idx ? 'active' : '';
+      const isAnswered = this.props.progress[idx].selected ? 'answered' : '';
+
+      return `selection ${isAnswered} ${isActive}`;
+    };
+
+    return (
+      <div className={ getClassName() } key={ id } onClick={ () => this.changeActiveQuestion(idx) }>
+        { idx }
+      </div>
+    )
+  }
+
   renderBackButton() {
     const Button = withRouter(({ history }) => (
-      <button onClick={ () => this.goBack(history) }>
+      <button onClick={ () => this.goBack(history) } data-hook="back">
         BACK
       </button>));
 
@@ -111,7 +121,7 @@ class Quizz extends React.Component<QuizzProps, QuizzState> {
 
   renderFinishButton() {
     const Button = withRouter(({ history }) => (
-      <button onClick={ () => this.finish(history) }>
+      <button onClick={ () => this.finish(history) } data-hook="finish">
         FINISH
       </button>));
 
@@ -130,7 +140,7 @@ class Quizz extends React.Component<QuizzProps, QuizzState> {
 
   render() {
     return (
-      <div className="quizz">
+      <div className="quizz" data-hook="quizz-container">
         { this.renderHeader() }
         { this.renderContent() }
       </div>
