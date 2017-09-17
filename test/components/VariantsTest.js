@@ -1,37 +1,60 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import sinon from 'sinon';
 import Variants from 'components/page/quizz/questions/variants';
 
 describe('Component: Variants', function () {
 
   it('should render Variants component', function () {
-    const driver = createDriver();
+    const driver = createDriver({});
     expect(driver.element('variants-container').exists()).to.be.true;
+  });
+
+  it('should render the question', function () {
+    const driver = createDriver({});
+    expect(driver.element('variants-label').text()).to.equal('A programmer is:');
+  });
+
+  it('should render selected answer', function () {
+    const driver = createDriver({ newQuestion: { selected: 'desk' } });
+    const option = driver.element('option-desk');
+    expect(option.hasClass('selected')).to.be.true;
+  });
+
+  it('should call onSelect', function () {
+    const selectSpy = sinon.spy();
+    const driver = createDriver({ onSelect: selectSpy });
+    const option = driver.element('option-desk');
+    option.click();
+    expect(selectSpy.calledOnce).to.be.true;
   });
 });
 
-const createDriver = (props = {}) => {
+const createDriver = ({ newQuestion = {}, onSelect = () => ({}) }) => {
   const wrapper = shallow(
-    <Variants { ...getProps(props) } />
+    <Variants { ...getProps({ newQuestion, onSelect }) } />
   );
 
   return {
-    element: () => {
-      const element = hook => wrapper.find(`[data-hook=${hook}]`);
+    element: hook => {
+      const el = wrapper.find(`[data-hook="${hook}"]`);
       return {
-        exists: () => element.length > 0
+        exists: () => el.length > 0,
+        text: () => el.text(),
+        hasClass: className => el.hasClass(className),
+        click: () => el.simulate('click')
       }
     }
   };
 };
 
-const getProps = (newProps) => {
-  return Object.assign({}, { question, onSelect: () => ({}) }, newProps);
-}
+const getProps = ({ newQuestion, onSelect }) => {
+  return { question: Object.assign({}, question, newQuestion), onSelect}
+};
 
 const question = {
   id: 'q1',
-  label: 'A programmer is to a computer as a teacher is to:',
+  label: 'A programmer is:',
   type: 'variants',
   variants: [
     {

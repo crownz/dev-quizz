@@ -32,7 +32,8 @@ export default class Variants extends React.Component<VariantsProps, VariantsSta
     return (
       <div key={ `${idx}-${variant.value}` }
            className={ `variant ${variant.value === this.state.selected ? 'selected' : ''}` }
-           onClick={ () => this.selectVariant(variant.value) }>
+           onClick={ () => this.selectVariant(variant.value) }
+           data-hook={ `option-${variant.value}` }>
         { variant.label }
       </div>
     );
@@ -43,7 +44,7 @@ export default class Variants extends React.Component<VariantsProps, VariantsSta
 
     return (
       <div className="variants" data-hook="variants-container">
-        <div className="variants-label">{ question.label }</div>
+        <div className="variants-label" data-hook="variants-label">{ question.label }</div>
         { question.variants.map((variant: Variant, idx: number) => this.renderVariant(variant, idx)) }
       </div>
     )
