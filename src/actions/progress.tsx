@@ -37,12 +37,12 @@ export const getProgress = (name: string) => {
   };
 };
 
-export const updateProgress = (name: string, id: string, value: any) => {
+export const updateProgress = (name: string, id: string, value: any, valid?: boolean) => {
   return dispatch => {
     fetch(`/api/progress`, {
       method: 'PUT',
       credentials: 'same-origin',
-      body: JSON.stringify({ name, id, value }),
+      body: JSON.stringify({ name, id, value, valid }),
       headers: {
         'Content-Type': 'application/json'
       }

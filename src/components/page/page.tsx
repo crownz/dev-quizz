@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import Loader from './loader';
 import Home from './home';
 import Quizz from './quizz';
+import Result from './result';
 import './page.scss';
 
 interface PageProps {
@@ -29,6 +30,7 @@ class Page extends React.Component<PageProps, {}> {
           <div className="page-inner">
             <Route exact path="/home" component={ Home } />
             <Route exact path="/quizz/:name" component={ Quizz } />
+            <Route exact path="/result/:name" component={ Result } />
           </div>
         </Router>
       </div>

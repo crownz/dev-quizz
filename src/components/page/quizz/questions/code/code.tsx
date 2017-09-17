@@ -22,7 +22,7 @@ export class Code extends React.Component<CodeProps, CodeState> {
   constructor(props: CodeProps) {
     super(props);
     this.validate = this.validate.bind(this);
-    this.state = { value: props.question.selected || '', valid: true, messages: [] };
+    this.state = { value: props.question.selected || '', valid: props.question.valid, messages: [] };
   }
 
   componentWillReceiveProps(nextProps: CodeProps) {
@@ -39,17 +39,18 @@ export class Code extends React.Component<CodeProps, CodeState> {
 
     this.props.validateHTML(value).then(({ messages }) => {
       this.setState({ valid: !messages.length, messages });
-      onSelect(id, value);
+      onSelect(id, value, !messages.length);
     });
   }
 
   renderTextArea() {
     const { value, valid } = this.state;
+    const validityClass = valid === true ? 'valid' : (valid === false ? 'invalid' : '');
 
     return (
       <textarea onChange={ e => this.updateValue(e.target.value) }
                 value={ value }
-                className={ `textarea ${valid ? '' : 'invalid'}` } />
+                className={ `textarea ${validityClass}` } />
     );
   }
 

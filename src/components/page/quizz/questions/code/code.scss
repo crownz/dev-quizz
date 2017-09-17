@@ -6,6 +6,10 @@
   &.invalid {
     border: 2px solid darkred;
   }
+
+  &.valid {
+    border: 2px solid lawngreen;
+  }
 }
 
 .validate {

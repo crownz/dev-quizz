@@ -1,6 +1,7 @@
 interface State {
   loading: boolean;
   progress: Question[];
+  result: Result;
 }
 
 interface Question {
@@ -9,9 +10,15 @@ interface Question {
   type: string;
   variants?: Variant[];
   selected?: any;
+  valid?: boolean;
 }
 
 interface Variant {
   label: string;
   value: any;
+}
+
+interface Result {
+  total: number;
+  correct: number;
 }

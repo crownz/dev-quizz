@@ -31,8 +31,8 @@ class Quizz extends React.Component<QuizzProps, QuizzState> {
     this.setState({ activeQuestion: idx });
   }
 
-  updateProgress(id: string, value: any) {
-    this.props.updateProgress(this.props.name, id, value);
+  updateProgress(id: string, value: any, valid?: boolean) {
+    this.props.updateProgress(this.props.name, id, value, valid);
   }
 
   navigate(forward: boolean = true) {

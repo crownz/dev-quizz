@@ -6,7 +6,7 @@ var request = require('request');
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import config from '../webpack.config.js';
-import { getProgressIfExists, updateAnswer } from './progress';
+import { getProgressIfExists, updateAnswer, calculateResult } from './progress';
 
 const compiler = webpack(config());
 const app = new Express();
@@ -27,9 +27,16 @@ app.get('/api/progress/:name', (req, res) => {
   }, 100);
 });
 
+app.get('/api/result/:name', (req, res) => {
+  setTimeout(() => {
+    let result = calculateResult(req.params.name);
+    res.send(result);
+  }, 100);
+});
+
 app.put('/api/progress', (req, res) => {
-  const { name, id, value } = req.body;
-  const updated = updateAnswer(name, id, value);
+  const { name, id, value, valid } = req.body;
+  const updated = updateAnswer(name, id, value, valid);
   res.send(updated);
 });
 

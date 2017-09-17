@@ -6,7 +6,7 @@ export function getQuestions() {
       label: 'Enter valid html containing title: Developer quizz',
       type: 'code',
       selected: '',
-      answer: 'Developer quizz'
+      answer: '<title>Developer quizz</title>'
     },
     {
       id: 'q1',
