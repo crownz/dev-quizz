@@ -4,6 +4,7 @@ const progress = { };
 
 export function getProgressIfExists(name) {
   let result = progress[name];
+
   if (!result) {
     result = getQuestions();
     result.forEach(question => delete question.answer);
@@ -34,8 +35,8 @@ export function calculateResult(name) {
   return { total, correct };
 }
 
-function checkIfCorrect(question, correctAnswer) {
-  const { type, valid, selected } = question;
+function checkIfCorrect(answer, correctAnswer) {
+  const { type, valid, selected } = answer;
 
   if (type === 'code') {
     return valid && selected.includes(correctAnswer);

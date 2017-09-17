@@ -1,8 +1,8 @@
+const request = require('request');
 import path from 'path';
 import { Server } from 'http';
 import Express from 'express';
 import bodyParser from 'body-parser';
-var request = require('request');
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import config from '../webpack.config.js';
@@ -12,10 +12,10 @@ const compiler = webpack(config());
 const app = new Express();
 const server = new Server(app);
 
-app.use(webpackDevMiddleware(compiler, { publicPath: config().output.publicPath }));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+app.use(webpackDevMiddleware(compiler, { publicPath: config().output.publicPath }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(Express.static(path.join(__dirname, 'static')));
@@ -56,7 +56,7 @@ app.put('/api/validate', (req, res) => {
 });
 
 app.get('*', (req, res) => {
-  res.render('index', {  });
+  res.render('index', {});
 });
 
 const port = process.env.PORT || 3000;

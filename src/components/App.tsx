@@ -11,4 +11,4 @@ export default () => {
       <Page history={ history } />
     </div>
   );
-}
+};

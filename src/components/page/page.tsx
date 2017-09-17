@@ -2,11 +2,11 @@ import * as React from 'react';
 import { Router, Route } from 'react-router-dom';
 import { connect } from "react-redux";
 
-
 import Loader from './loader';
 import Home from './home';
 import Quizz from './quizz';
 import Result from './result';
+
 import './page.scss';
 
 interface PageProps {

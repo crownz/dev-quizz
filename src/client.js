@@ -7,9 +7,7 @@ import thunk from 'redux-thunk';
 import App from './components/App';
 import rootReducer from './reducers';
 
-const initialState = {
-
-};
+const initialState = { };
 
 const store = createStore(rootReducer, initialState, applyMiddleware(...[thunk]));
 
@@ -24,7 +22,7 @@ ReactDOM.render(
 
 if (module.hot) {
   module.hot.accept('./components/App', () => {
-    const NextApp = require('./components/App').default; // eslint-disable-line global-require
+    const NextApp = require('./components/App').default;
 
     ReactDOM.render(
       <AppContainer>
